@@ -2,13 +2,13 @@ import { Module } from '@nestjs/common';
 import { VouchersController } from './vouchers.controller';
 import { VouchersService } from './vouchers.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { VoucherRepository } from './voucher.respositry';
+import { Voucher } from './voucher.entity';
 
 @Module({
   imports :[
-    TypeOrmModule.forFeature([VoucherRepository]),
+    TypeOrmModule.forFeature([Voucher]),
   ],
   controllers: [VouchersController],
-  providers: [VouchersService]
+  providers: [VouchersService,Voucher]
 })
 export class VouchersModule {}

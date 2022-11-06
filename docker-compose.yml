@@ -1,0 +1,37 @@
+version: '3.5'
+services:
+  db:
+    image: mysql:5.7
+    ports:
+      - 3308:3308
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: test
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - core_service_network
+   
+  apis:
+    build: ./
+    ports:
+      - 4000:4000
+      - 5858:5858
+    volumes:
+      - ./:/app
+    env_file:
+      ./.env
+    networks:
+      - core_service_network
+networks:
+  core_service_network:
+    driver: bridge
+    name: core_service_network
+volumes:
+  mysql_data:
+    name: mysql_data
+ 
+  apis_modules:
+    name: apis_modules

@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, ValidationPipe } from '@nestjs/common';
 import { get } from 'http';
 import { CreateVoucherDto } from './dto/create-voucher-dto';
 import { UpdateVoucherDto } from './dto/update-voucher-dto';
+import { UseVoucherDto } from './dto/use-voucher-dto';
 import { Voucher } from './voucher.model';
 import { VouchersService } from './vouchers.service';
 
@@ -13,7 +14,7 @@ export class VouchersController {
         return this.vouchersService.getAllVouchers();
     }
     @Post()
-    createVoucher( @Body() createVoucherDto : CreateVoucherDto){
+    createVoucher( @Body(new ValidationPipe()) createVoucherDto : CreateVoucherDto){
         return this.vouchersService.createVoucher(createVoucherDto);
     }
 
@@ -23,7 +24,7 @@ export class VouchersController {
     }
 
     @Patch('/:id')
-    updateVoucher(@Param('id') id : string, @Body() body : UpdateVoucherDto)
+    updateVoucher(@Param('id') id : string, @Body(new ValidationPipe()) body : UpdateVoucherDto)
     {
         return this.vouchersService.update(parseInt(id),body);
     }
@@ -31,6 +32,10 @@ export class VouchersController {
     @Delete("/:id")
     removeVoucher(@Param('id') id : string){
         return this.vouchersService.remove(parseInt(id));
+    }
+    @Post("/:id/use")
+    useVoucher( @Body(new ValidationPipe()) useVoucherDto : UseVoucherDto,@Param('id') id : string){
+        return this.vouchersService.useVoucher(useVoucherDto,parseInt(id));
     }
 }
 

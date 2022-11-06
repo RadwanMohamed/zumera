@@ -10,7 +10,7 @@ export class Voucher extends BaseEntity{
     isExpired : boolean;
     @Column({nullable:true})
     userId : number;
-    @Column()
+    @Column({nullable:true})
     used_at : Date;
 
     @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
